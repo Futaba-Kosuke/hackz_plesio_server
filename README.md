@@ -4,9 +4,9 @@
 URL: https://console.firebase.google.com/u/0/project/plesio/storage/plesio.appspot.com/files
 
 ## LINE BOT
-### route
+### POST
 `/line_bot`  
-### data 
+### data
 ```
 {
    url: string 
@@ -14,3 +14,5 @@ URL: https://console.firebase.google.com/u/0/project/plesio/storage/plesio.appsp
 ```
 
 ## LIGHT BOARD
+### GET
+`/light_board/<text>`
