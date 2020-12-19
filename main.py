@@ -33,6 +33,9 @@ def controller():
     raspi_payload_str = str(access_cnt)
     requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
 
+    drone_payload_str = str(access_cnt)
+    requests.get(os.path.join(drone_url, 'advanced_control', drone_payload_str))
+
 @app.route('/line_bot', methods=['POST'])
 def line_bot():
 	data = request.data.decode('utf-8')
