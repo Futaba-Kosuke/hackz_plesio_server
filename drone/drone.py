@@ -61,13 +61,13 @@ while True:
         # Send data
         
         msg = msg.encode(encoding="utf-8")
-        sent = sock.sendto(msg, tello_address)
+        result = sock.sendto(msg, tello_address)
         
         # once
         if n == 0:
-            sent = sock.sendto('takeoff'.encode('utf-8'),tello_address)
+            result = sock.sendto('takeoff'.encode('utf-8'),tello_address)
             time.sleep(5)
-            sent = sock.sendto("down 80".encode('utf-8'),tello_address)
+            result = sock.sendto("down 80".encode('utf-8'),tello_address)
             n = 1
         #
  
