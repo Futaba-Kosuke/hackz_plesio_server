@@ -49,20 +49,22 @@ def controller():
     # else:
     #     print('a')
 
+    broadcast(f'{str(access_cnt)}人目の接続者が現れたぞ！')
+
     return '200'
 
-@app.route('/land', methods=['GET'])
-def land():
-    requests.get(os.path.join(drone_url, 'land'))
-    time.sleep(5)
-    return '200'
+# @app.route('/land', methods=['GET'])
+# def land():
+#     requests.get(os.path.join(drone_url, 'land'))
+#     time.sleep(5)
+#     return '200'
 
-@app.route('/line_bot', methods=['POST'])
-def line_bot():
-	data = request.data.decode('utf-8')
-	data = json.loads(data)
-	text = data['text']
-	broadcast(text)
-	return '200'
+# @app.route('/line_bot', methods=['POST'])
+# def line_bot():
+# 	data = request.data.decode('utf-8')
+# 	data = json.loads(data)
+# 	text = data['text']
+#
+# 	return '200'
 
 app.run(port=80)
