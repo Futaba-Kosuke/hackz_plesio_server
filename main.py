@@ -23,34 +23,39 @@ args = parser.parse_args()
 raspi_url = args.raspberry_pi
 drone_url = args.drone
 
-
 @app.route('/test', methods=['GET'])
 def test():
 	return 'Hello World'
 
+requests.get(os.path.join(drone_url, 'takeoff'))
 
-@app.route('/controller', methods=['POST'])
+@app.route('/controller', methods=['GET'])
 def controller():
-	# アクセス数の取得
-	docs = firebase.db.collection('users').get()
-	values = [doc.to_dict() for doc in docs]
-	access_cnt = int(values[0]['count']) + 1
-	# アクセス数の更新
-	firebase.db.collection('users').document('access_count').update({
-		'count': access_cnt
-	})
+    # アクセス数の取得
+    docs = firebase.db.collection('users').get()
+    values = [doc.to_dict() for doc in docs]
+    access_cnt = int(values[0]['count']) + 1
+    # アクセス数の更新
+    firebase.db.collection('users').document('access_count').update({
+        'count': access_cnt
+    })
+    
+    raspi_payload_str = f'This_is_the_{str(access_cnt)}_customer.'
+    requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
 
-	raspi_payload_str = f'This_is_the_{str(access_cnt)}_customer.'
-	requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
+    # if access_cnt < 5:
+    #     requests.get(os.path.join(drone_url, 'up', '20'))
+    #     time.sleep(5)
+    # else:
+    #     print('a')
 
-	requests.get(os.path.join(drone_url, 'takeoff'))
-	time.sleep(5)
-	drone_payload_str = str(access_cnt)
-	requests.get(os.path.join(drone_url, 'up', drone_payload_str))
-	time.sleep(5)
-	requests.get(os.path.join(drone_url, 'land'))
-	return '200'
+    return '200'
 
+@app.route('/land', methods=['GET'])
+def land():
+    requests.get(os.path.join(drone_url, 'land'))
+    time.sleep(5)
+    return '200'
 
 @app.route('/line_bot', methods=['POST'])
 def line_bot():

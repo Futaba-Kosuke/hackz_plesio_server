@@ -12,9 +12,7 @@ import sys
 import time
 import platform  
 import time
-import cv2
 import os
-import numpy as np
 
 host = ''
 port = 9000
@@ -50,47 +48,55 @@ CORS(app)
 def get_takeoff():
     sock.sendto('command'.encode('utf-8'),tello_address)
     result = sock.sendto('takeoff'.encode('utf-8'),tello_address)
-    time.sleep(4)
+    time.sleep(5)
     result = sock.sendto("down 80".encode('utf-8'),tello_address)
-    time.sleep(4)
-
+    time.sleep(5)
+    return ''
 
 @app.route('/land', methods=['GET'])
 def get_land():
     sock.sendto('land'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/up/<z>', methods=['GET'])
 def get_up(z):
     sock.sendto(f'up {z}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/down/<z>', methods=['GET'])
 def get_down(z):
     sock.sendto(f"down {z}".encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/left/<x>', methods=['GET'])
 def get_left(x):
     sock.sendto(f'left {x}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/right/<x>', methods=['GET'])
 def get_right(x):
     sock.sendto(f'right {x}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/forward/<y>', methods=['GET'])
 def get_forward(y):
     sock.sendto(f'forward {y}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/back/<y>', methods=['GET'])
 def get_back(y):
     sock.sendto(f'back {y}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/cw/<R>', methods=['GET'])
 def get_cw(R):
     sock.sendto(f'cw {R}'.encode('utf-8'),tello_address)
+    return ''
 
 @app.route('/ccw/<R>', methods=['GET'])
 def get_ccw(R):
     sock.sendto(f'ccw {R}'.encode('utf-8'),tello_address)
-
+    return ''
 
 app.run()
 
@@ -120,8 +126,3 @@ while True:
         print ('\n . . .\n')
         sock.close()  
         break
-
-
-
-
-
