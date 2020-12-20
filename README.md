@@ -9,10 +9,12 @@ URL: https://console.firebase.google.com/u/0/project/plesio/storage/plesio.appsp
 ### data
 ```
 {
-   url: string 
+   text: string 
 }
 ```
 
 ## LIGHT BOARD
 ### GET
 `/light_board/<text>`
+
+## Controller
