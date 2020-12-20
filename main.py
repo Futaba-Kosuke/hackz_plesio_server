@@ -56,8 +56,8 @@ def controller():
 def line_bot():
 	data = request.data.decode('utf-8')
 	data = json.loads(data)
-	image_url = data['url']
-	broadcast(image_url)
+	text = data['text']
+	broadcast(text)
 	return '200'
 
 app.run(port=80)
