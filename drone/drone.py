@@ -46,19 +46,14 @@ recvThread.start()
 app = Flask(__name__)
 CORS(app)
 
-n = 0
-
 @app.route('/takeoff', methods=['GET'])
 def get_takeoff():
-    # once
-    if n == 0:
-        sock.sendto('command'.encode('utf-8'),tello_address)
-        result = sock.sendto('takeoff'.encode('utf-8'),tello_address)
-        time.sleep(4)
-        result = sock.sendto("down 80".encode('utf-8'),tello_address)
-        time.sleep(4)
-        n = 1
-    #
+    sock.sendto('command'.encode('utf-8'),tello_address)
+    result = sock.sendto('takeoff'.encode('utf-8'),tello_address)
+    time.sleep(4)
+    result = sock.sendto("down 80".encode('utf-8'),tello_address)
+    time.sleep(4)
+
 
 @app.route('/land', methods=['GET'])
 def get_land():
@@ -66,7 +61,7 @@ def get_land():
 
 @app.route('/up/<z>', methods=['GET'])
 def get_up(z):
-    sock.sendto(f'up {x}'.encode('utf-8'),tello_address)
+    sock.sendto(f'up {z}'.encode('utf-8'),tello_address)
 
 @app.route('/down/<z>', methods=['GET'])
 def get_down(z):
@@ -81,7 +76,7 @@ def get_right(x):
     sock.sendto(f'right {x}'.encode('utf-8'),tello_address)
 
 @app.route('/forward/<y>', methods=['GET'])
-def get_left(y):
+def get_forward(y):
     sock.sendto(f'forward {y}'.encode('utf-8'),tello_address)
 
 @app.route('/back/<y>', methods=['GET'])
