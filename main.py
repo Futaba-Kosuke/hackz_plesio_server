@@ -20,9 +20,13 @@ args = parser.parse_args()
 raspi_url = args.raspberry_pi
 drone_url = args.drone
 
+height = 0
+
 @app.route('/test', methods=['GET'])
 def test():
 	return 'Hello World'
+
+requests.get(os.path.join(drone_url, 'takeoff'))
 
 @app.route('/controller', methods=['POST'])
 def controller():
@@ -31,15 +35,21 @@ def controller():
 
     access_cnt = int(data_dict['access_cnt'])
 
-    raspi_payload_str = f'This_is_the_{str(access_cnt)}_customer.'
-    requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
+    # raspi_payload_str = f'This_is_the_{str(access_cnt)}_customer.'
+    # requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
 
-    requests.get(os.path.join(drone_url, 'takeoff'))
-    time.sleep(5)
-    drone_payload_str = str(access_cnt)
-    requests.get(os.path.join(drone_url, 'up', drone_payload_str))
-    time.sleep(5)
+    if height < 100:
+        height += 20
+        requests.get(os.path.join(drone_url, 'up', '20'))
+        time.sleep(5)
+
+    return ''
+
+@app.route('/land', methods=['GET'])
+def land():
     requests.get(os.path.join(drone_url, 'land'))
+    time.sleep(5)
+    return ''
 
 @app.route('/line_bot', methods=['POST'])
 def line_bot():
