@@ -1,6 +1,7 @@
 import os
 import argparse
 import requests
+import time
 
 from flask import Flask, request
 from flask_cors import CORS
@@ -30,11 +31,15 @@ def controller():
 
     access_cnt = int(data_dict['access_cnt'])
 
-    raspi_payload_str = str(access_cnt)
+    raspi_payload_str = f'This_is_the_{str(access_cnt)}_customer.'
     requests.get(os.path.join(raspi_url, 'light_board', raspi_payload_str))
 
+    requests.get(os.path.join(drone_url, 'takeoff'))
+    time.sleep(5)
     drone_payload_str = str(access_cnt)
-    requests.get(os.path.join(drone_url, 'advanced_control', drone_payload_str))
+    requests.get(os.path.join(drone_url, 'up', drone_payload_str))
+    time.sleep(5)
+    requests.get(os.path.join(drone_url, 'land'))
 
 @app.route('/line_bot', methods=['POST'])
 def line_bot():
@@ -44,4 +49,4 @@ def line_bot():
 	broadcast(image_url)
 	return '200'
 
-app.run()
+app.run(port=80)
